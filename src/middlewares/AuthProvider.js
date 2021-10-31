@@ -6,7 +6,7 @@ const AuthProvider = ({children}) => {
 
     const contextValue = {
         isLogged() {
-            return false;
+            return true;
         }
     }
     return <AuthContext.Provider value={contextValue}>
