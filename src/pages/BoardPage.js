@@ -1,16 +1,28 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Xwrapper} from 'react-xarrows';
 import Box from "../figures/Box";
 import Arrow from "../figures/Arrow";
+import {useLocation, useHistory} from "react-router-dom";
+import DB from "../firebase/FirestoreProvider";
+import Modal from "./Modal";
 
 
-function HolaC(props) {
+function BoardPage(props) {
+    const location = useLocation();
+    const history = useHistory();
+
+
+    const [board,setBard]=useState({});
+    useEffect(() => {
+      DB.getBoard(setBard,location.state.boardId);
+    },[]);
+
     const [boxes, setBoxes] = useState([]);
     const [arrows, setArrows] = useState([]);
     const [action, setAction] = useState({});
     const [selected, setSelected] = useState({});
     const [showOptions, setShowOptions] = useState({box: false, arrow: false});
-
+    const [modalActions, setModalActions] = useState({participants: false, delete: false});
 
     const boxProps = {
         showOptions,
@@ -52,14 +64,26 @@ function HolaC(props) {
 
     return (
         <div className={'flex min-h-screen'}>
-            <div className={'w-48 border border-4 shadow-xl p-5 space-y-5'}>
-                <div className={'rounded w-24 p-5 border-2'}
-                     onDragStart={(e) => e.dataTransfer.setData('shape', 'box')}
-                     draggable={'true'}>hola
+            <div className={'w-48 border border-4 shadow-xl p-5 flex flex-col justify-between'}>
+                <div className={'space-y-5 flex flex-col justify-center items-center'}>
+                    <div className={'rounded w-24 p-5 border-2'}
+                         onDragStart={(e) => e.dataTransfer.setData('shape', 'box')}
+                         draggable={'true'}>hola
+                    </div>
+                    <div className={'rounded-full w-24 p-5 border-2'}
+                         onDragStart={(e) => e.dataTransfer.setData('shape', 'circle')}
+                         draggable={'true'}>hola
+                    </div>
                 </div>
-                <div className={'rounded-full w-24 p-5 border-2'}
-                     onDragStart={(e) => e.dataTransfer.setData('shape', 'circle')}
-                     draggable={'true'}>hola
+                <div className={'space-y-2 flex flex-col'}>
+                    <button className={'w-full rounded p-1 hover:shadow-lg bg-blue-500 text-white font-medium'}
+                            onClick={e => setModalActions({participants: true, delete: false})}>{'Participantes'}</button>
+                    <button className={'w-full rounded p-1 hover:shadow-lg bg-blue-500 text-white font-medium'}
+                            onClick={e => {
+                                history.push('/')
+                            }}>{'Salir'}</button>
+                    <button className={'w-full rounded p-1 hover:shadow-lg bg-red-500 text-white font-medium'}
+                            onClick={e => setModalActions({participants: false, delete: true})}>{'Eliminar'}</button>
                 </div>
             </div>
 
@@ -112,7 +136,7 @@ function HolaC(props) {
                 }}>---->
                 </button>
 
-                <button className={'border-2 w-full mt-8'} onClick={e=>setShowOptions({})}>{'Cerrar'}</button>
+                <button className={'border-2 w-full mt-8'} onClick={e => setShowOptions({})}>{'Cerrar'}</button>
 
             </div>)}
 
@@ -126,16 +150,63 @@ function HolaC(props) {
                 </div>
 
                 <div className={'mt-2'}>
-                <label>Conector</label>
+                    <label>Conector</label>
                     <select className={'w-full'} onChange={e => update(e, 'arrow', e.target.value)}>
-                    <option value="normal">-></option>
-                    <option value="dotted">---></option>
-                </select>
+                        <option value="normal">-></option>
+                        <option value="dotted">---></option>
+                    </select>
                 </div>
 
-                <button className={'border-2 w-full mt-8'} onClick={e=>setShowOptions({box: false, arrow: false})}>{'Cerrar'}</button>
+                <button className={'border-2 w-full mt-8'}
+                        onClick={e => setShowOptions({box: false, arrow: false})}>{'Cerrar'}</button>
 
             </div>)}
+
+            {modalActions.delete && <Modal title={'Crear Tablero'} setModal={setModalActions} value={{participants: false, delete: false}}>
+                <div className={'p-5 space-y-10'}>
+                    <p>{'¿Estas seguro de eliminar este tablero?'}</p>
+                    <div className={'flex justify-end space-x-2'}>
+                        <button className={'rounded p-2 hover:shadow-lg bg-gray-300 text-black font-medium'}
+                                onClick={e => setModalActions({participants: false, delete: false})}>{'Cerrar'}</button>
+
+                        <button className={'rounded p-2 hover:shadow-lg bg-red-500 text-white font-medium'}
+                                onClick={e => {
+                                    DB.deleteBoard(location.state.boardId).then(() => {
+                                        history.replace('/')
+                                    })
+                                }}>{'Eliminar'}</button>
+
+                    </div>
+
+                </div>
+
+                <div className={'flex justify-center'}>
+                </div>
+            </Modal>}
+
+            {modalActions.participants && <Modal title={'Participantes'} setModal={setModalActions} value={{participants: false, delete: false}}>
+                <div className={'p-5 space-y-10'}>
+                    <form className={'flex space-x-2'}
+                        onSubmit={e => {e.preventDefault();DB.addParticipant(e.target.email.value, location.state.boardId)}}>
+                        <input className={'w-full'} type="text" name={'email'} placeholder={'Correo del participante'}/>
+                        <button className={'rounded p-2 hover:shadow-lg bg-blue-500 text-white font-medium'}>{'Añadir'}</button>
+                    </form>
+                    <div className={'space-y-2'}>
+                    {board.participantsEmail.map((email,index) => {
+                        return <div key={index} className={'flex space-x-2 items-center justify-center'}>
+                            <p className={'w-full block border-2 p-1.5 rounded text-gray-600 font-medium'}>{email}</p>
+                            <button className={'rounded p-2 hover:shadow-lg bg-red-500 text-white font-medium'}
+                            onClick={e=>DB.removeParticipant(email,location.state.boardId)}>{'Remover'}</button>
+                        </div>
+                    })}
+                    </div>
+
+
+                </div>
+
+                <div className={'flex justify-center'}>
+                </div>
+            </Modal>}
         </div>
     );
 
@@ -152,15 +223,15 @@ function HolaC(props) {
             const position = updated.findIndex((element) => selected.id === element.id);
 
             let value;
-            switch (toUpdate){
+            switch (toUpdate) {
                 case 'dotted':
-                    value={dotted:true}
+                    value = {dotted: true}
                     break;
                 case 'label':
-                    value={label:e.target.value}
+                    value = {label: e.target.value}
                     break;
                 default:
-                    value={dotted:true};
+                    value = {dotted: true};
                     break;
             }
             updated.splice(position, 1, {...updated[position], ...value});
@@ -170,4 +241,4 @@ function HolaC(props) {
     }
 }
 
-export default HolaC;
+export default BoardPage;

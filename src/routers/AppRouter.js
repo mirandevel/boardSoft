@@ -2,20 +2,22 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import PrivateRouter from "./PrivateRouter";
-import HolaC from "../pages/HolaC";
-import AdiosC from "../pages/AdiosC";
+import BoardPage from "../pages/BoardPage";
+import UseAuth from "../middlewares/UseAuth";
+import DashboardPage from "../pages/DashboardPage";
+
 
 function AppRouter(props) {
+    const auth = UseAuth();
     return (
         <Router>
             <Switch>
-                <Route exact path={'/'} component={HomePage}/>
+                <Route exact path={'/'} component={auth.isLogged()?DashboardPage:HomePage}/>
                 <Route path={'/test'}>
                     <h1>test</h1>
                 </Route>
 
-                <PrivateRouter path={'/hola'} component={HolaC}/>
-                <PrivateRouter path={'adios'} component={AdiosC}/>
+                <PrivateRouter path={'/board/:name'} component={BoardPage}/>
             </Switch>
         </Router>
     );

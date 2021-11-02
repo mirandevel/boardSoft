@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    input {
+        @apply border-2 p-1.5 rounded block focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent;
+    }
+    label{
+        @apply font-medium text-sm text-gray-500
+    }
+}
