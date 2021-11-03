@@ -2,28 +2,47 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Xwrapper} from 'react-xarrows';
 import Box from "../figures/Box";
 import Arrow from "../figures/Arrow";
-import {useLocation, useHistory} from "react-router-dom";
+import {useLocation, useHistory, Redirect} from "react-router-dom";
 import DB from "../firebase/FirestoreProvider";
 import Modal from "./Modal";
-
-import db from '../assets/db.png';
+import UseAuth from "../middlewares/UseAuth";
 
 function BoardPage(props) {
     const location = useLocation();
     const history = useHistory();
+    const auth=UseAuth();
 
+    if(location.state===undefined){
+        history.replace('/')
+    }
 
-    const [board,setBard]=useState({});
+    const [board,setBoard]=useState({});
+    const [isOwner,setIsOwner]=useState(false);
+
     useEffect(() => {
-      DB.getBoard(setBard,location.state.boardId);
+      DB.getBoard(setBoard,location.state.boardId);
+      DB.initBoxes(setBoxes,location.state.boardId)
+      DB.initArrows(setArrows,location.state.boardId)
     },[]);
+
+    useEffect(() => {
+        if(Object.entries(board).length !== 0)
+            if(!board.participantsEmail.includes(auth.user.email)) history.replace('/');
+            else setIsOwner(board.ownerId===auth.user.uid);
+    },[board]);
+
+
+
 
     const [boxes, setBoxes] = useState([]);
     const [arrows, setArrows] = useState([]);
+
     const [action, setAction] = useState({});
     const [selected, setSelected] = useState({});
     const [showOptions, setShowOptions] = useState({box: false, arrow: false});
     const [modalActions, setModalActions] = useState({participants: false, delete: false});
+
+
 
     const boxProps = {
         showOptions,
@@ -58,8 +77,9 @@ function BoardPage(props) {
         let {x, y} = e.target.getBoundingClientRect();
         let newBox = {
             id: nexBoxId(), x: e.clientX - x, y: e.clientY - y, boxType: boxType,
-            title: 'title', content: 'content'
+            title: 'title', content: 'descripción',docId:0,
         };
+        DB.createBox(location.state.boardId,newBox);
         setBoxes([...boxes, newBox]);
     };
 
@@ -71,7 +91,7 @@ function BoardPage(props) {
                          onDragStart={(e) => e.dataTransfer.setData('shape', 'person')}
                          draggable={'true'}>
                         <div className={'rounded-full w-10 h-10 bg-blue-700'}></div>
-                        <div className={'rounded w-full bg-blue-700 p-5 -mt-2 text-center'}>Person</div>
+                        <div className={'rounded w-full bg-blue-700 p-5 -mt-2 text-center'}>Persona</div>
                     </div>
 
                     <div className={'rounded w-24 p-5 border-2 bg-blue-700 text-white'}
@@ -94,22 +114,25 @@ function BoardPage(props) {
                          draggable={'true'}>Componente
                     </div>
 
-
-                    <div className={'rounded-full w-24 p-5 border-2'}
-                         onDragStart={(e) => e.dataTransfer.setData('shape', 'circle')}
-                         draggable={'true'}>hola
-                    </div>
                 </div>
 
                 <div className={'space-y-2 flex flex-col'}>
                     <button className={'w-full rounded p-1 hover:shadow-lg bg-blue-500 text-white font-medium'}
-                            onClick={e => setModalActions({participants: true, delete: false})}>{'Participantes'}</button>
+                             onClick={e => setModalActions({
+                                 participants: true,
+                                 delete: false
+                             })}>{'Participantes'}</button>
+
                     <button className={'w-full rounded p-1 hover:shadow-lg bg-blue-500 text-white font-medium'}
                             onClick={e => {
                                 history.push('/')
                             }}>{'Salir'}</button>
-                    <button className={'w-full rounded p-1 hover:shadow-lg bg-red-500 text-white font-medium'}
-                            onClick={e => setModalActions({participants: false, delete: true})}>{'Eliminar'}</button>
+                    {isOwner && <button className={'w-full rounded p-1 hover:shadow-lg bg-red-500 text-white font-medium'}
+                                onClick={e => setModalActions({
+                                    participants: false,
+                                    delete: true
+                                })}>{'Eliminar'}</button>
+                    }
                 </div>
             </div>
 
@@ -122,12 +145,12 @@ function BoardPage(props) {
                          onDrop={handleDropDynamic}>
                         {boxes.map(box => {
                             return <Box key={box.id} id={box.id} boxType={box.boxType} posX={box.x} posY={box.y}
-                                        {...boxProps} title={box.title} content={box.content}/>
+                                        {...boxProps} title={box.title} content={box.content} docId={box.docId}/>
                         })}
                         {arrows.map((arrow, index) => {
                             return <Arrow key={index} id={arrow.id} start={arrow.start} end={arrow.end}
                                           dotted={arrow.dotted}
-                                          {...arrowProps} label={arrow.label}/>
+                                          {...arrowProps} label={arrow.label} docId={arrow.docId}/>
                         })}
                     </div>
                 </Xwrapper>
@@ -139,12 +162,12 @@ function BoardPage(props) {
 
                 <div className={'space-y-2 mt-5'}>
                     <div>
-                        <label>Título</label>
+                        <label>{'Título'}</label>
                         <input className={'w-full border'} type="text" value={selected.title}
                                onChange={e => update(e, 'box', 'title')}/>
                     </div>
                     <div>
-                        <label>Contenido</label>
+                        <label>{'Descripción'}</label>
                         <textarea className={'w-full border'} value={selected.content}
                                   onChange={e => update(e, 'box', 'content')}/>
                     </div>
@@ -162,6 +185,7 @@ function BoardPage(props) {
                 }}>---->
                 </button>
 
+                <button className={'border-2 w-full mt-8'} onClick={e => DB.deleteBox(location.state.boardId,selected.docId)}>{'Eliminar'}</button>
                 <button className={'border-2 w-full mt-8'} onClick={e => setShowOptions({})}>{'Cerrar'}</button>
 
             </div>)}
@@ -182,6 +206,8 @@ function BoardPage(props) {
                         <option value="dotted">---></option>
                     </select>
                 </div>
+
+                <button className={'border-2 w-full mt-8'} onClick={e => DB.deleteArrow(location.state.boardId,selected.docId)}>{'Eliminar'}</button>
 
                 <button className={'border-2 w-full mt-8'}
                         onClick={e => setShowOptions({box: false, arrow: false})}>{'Cerrar'}</button>
@@ -212,17 +238,17 @@ function BoardPage(props) {
 
             {modalActions.participants && <Modal title={'Participantes'} setModal={setModalActions} value={{participants: false, delete: false}}>
                 <div className={'p-5 space-y-10'}>
-                    <form className={'flex space-x-2'}
+                    {isOwner &&<form className={'flex space-x-2'}
                         onSubmit={e => {e.preventDefault();DB.addParticipant(e.target.email.value, location.state.boardId)}}>
                         <input className={'w-full'} type="text" name={'email'} placeholder={'Correo del participante'}/>
                         <button className={'rounded p-2 hover:shadow-lg bg-blue-500 text-white font-medium'}>{'Añadir'}</button>
-                    </form>
+                    </form>}
                     <div className={'space-y-2'}>
                     {board.participantsEmail.map((email,index) => {
                         return <div key={index} className={'flex space-x-2 items-center justify-center'}>
                             <p className={'w-full block border-2 p-1.5 rounded text-gray-600 font-medium'}>{email}</p>
-                            <button className={'rounded p-2 hover:shadow-lg bg-red-500 text-white font-medium'}
-                            onClick={e=>DB.removeParticipant(email,location.state.boardId)}>{'Remover'}</button>
+                            {isOwner && <button className={'rounded p-2 hover:shadow-lg bg-red-500 text-white font-medium'}
+                            onClick={e=>DB.removeParticipant(email,location.state.boardId)}>{'Remover'}</button>}
                         </div>
                     })}
                     </div>
@@ -230,8 +256,7 @@ function BoardPage(props) {
 
                 </div>
 
-                <div className={'flex justify-center'}>
-                </div>
+
             </Modal>}
         </div>
     );
@@ -243,7 +268,9 @@ function BoardPage(props) {
             const value = toUpdate === 'title' ? {title: e.target.value} : {content: e.target.value};
             updated.splice(position, 1, {...updated[position], ...value});
             setSelected({...selected, ...value});
+            DB.updateBox(location.state.boardId,selected)
             setBoxes(updated);
+
         } else {
             let updated = [...arrows];
             const position = updated.findIndex((element) => selected.id === element.id);
@@ -253,15 +280,19 @@ function BoardPage(props) {
                 case 'dotted':
                     value = {dotted: true}
                     break;
+                case 'normal':
+                    value = {dotted: false}
+                    break;
                 case 'label':
                     value = {label: e.target.value}
                     break;
                 default:
-                    value = {dotted: true};
+                    //value = {dotted: false};
                     break;
             }
             updated.splice(position, 1, {...updated[position], ...value});
             setSelected({...selected, ...value});
+            DB.updateArrow(location.state.boardId,updated[position])
             setArrows(updated);
         }
     }

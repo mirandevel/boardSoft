@@ -32,7 +32,6 @@ const createBoards=(name,user)=>{
 const getBoard=(setBoard,boardId)=>{
     onSnapshot(doc(db, "boards", boardId), (doc) => {
         setBoard(doc.data());
-        console.log(doc.data())
     });
 }
 
@@ -51,6 +50,52 @@ const removeParticipant=(email, boardId)=>{
     });
 }
 
+
+const initBoxes=(setBoxes,boardId)=>{
+    const q = query(collection(db, "boards",boardId,"boxes"),orderBy("id", "asc"));
+    unsubscribe=onSnapshot(q, (querySnapshot) => {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+            items.push({...doc.data(),docId:doc.id});
+        });
+        setBoxes(items);
+        console.log(items)
+    });
+};
+const createBox=(boardId,box)=>{
+    addDoc(collection(db, "boards",boardId,"boxes"),box);
+};
+const updateBox=(boardId,box)=>{
+    updateDoc(doc(db, "boards",boardId,"boxes",box.docId),box);
+    //eliminar flechas tambien
+}
+const deleteBox=(boardId,boxId)=>{
+    deleteDoc(doc(db, "boards",boardId,"boxes",boxId));
+}
+
+
+const initArrows=(setArrows,boardId)=>{
+    const q = query(collection(db, "boards",boardId,"arrows"),orderBy("id", "asc"));
+    unsubscribe=onSnapshot(q, (querySnapshot) => {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+            items.push({...doc.data(),docId:doc.id});
+        });
+        setArrows(items);
+    });
+};
+const createArrow=(boardId,box)=>{
+    addDoc(collection(db, "boards",boardId,"arrows"),box);
+};
+const updateArrow=(boardId,box)=>{
+    updateDoc(doc(db, "boards",boardId,"arrows",box.docId),box);
+}
+const deleteArrow=(boardId,boxId)=>{
+    deleteDoc(doc(db, "boards",boardId,"arrows",boxId));
+}
+
+
+
 const DB ={
     initBoards,
     createBoards,
@@ -59,6 +104,14 @@ const DB ={
     stop,
     addParticipant,
     removeParticipant,
+    initBoxes,
+    createBox,
+    updateBox,
+    deleteBox,
+    initArrows,
+    createArrow,
+    updateArrow,
+    deleteArrow
 }
 
 

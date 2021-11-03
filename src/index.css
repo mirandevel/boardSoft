@@ -678,8 +678,6 @@ label{
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -701,8 +699,6 @@ label{
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -721,8 +717,6 @@ label{
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -730,10 +724,10 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
-  --tw-border-opacity: 1;
-  border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   --tw-bg-opacity: 1;
-  background-color: rgba(29, 78, 216, var(--tw-bg-opacity))
+  background-color: rgba(29, 78, 216, var(--tw-bg-opacity));
+  --tw-border-opacity: 1;
+  border-color: rgba(239, 68, 68, var(--tw-border-opacity))
 }
 
 .container{
@@ -743,8 +737,6 @@ label{
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -757,14 +749,48 @@ label{
 }
 
 .containerSelected{
+  width: 100%
+}
+
+@media (min-width: 640px) {
+  .containerSelected {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .containerSelected {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .containerSelected {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .containerSelected {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .containerSelected {
+    max-width: 1536px;
+  }
+}
+
+.containerSelected{
+  --tw-border-opacity: 1;
+  border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   position: absolute;
   width: auto;
   max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -772,8 +798,6 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
-  --tw-border-opacity: 1;
-  border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   --tw-bg-opacity: 1;
   background-color: rgba(59, 130, 246, var(--tw-bg-opacity))
 }
@@ -785,8 +809,6 @@ label{
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -801,14 +823,14 @@ label{
 }
 
 .databaseSelected{
+  --tw-border-opacity: 1;
+  border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   position: absolute;
   width: auto;
   max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -816,10 +838,6 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
-  --tw-border-opacity: 1;
-  border-color: rgba(239, 68, 68, var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
   background-image: url("./assets/db.png");
   background-size:  100%;
   background-repeat:   no-repeat;
@@ -833,8 +851,6 @@ label{
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;
@@ -853,8 +869,6 @@ label{
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.5rem;

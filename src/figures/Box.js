@@ -1,56 +1,84 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useXarrow} from "react-xarrows";
 import Draggable from "react-draggable";
+import DB from "../firebase/FirestoreProvider";
+import {useLocation} from "react-router-dom";
 
-const boxSelected='cursor-move w-24 rounded px-5 py-2 border-4 absolute border-red-500 bg-blue-600 text-white';
-const box='cursor-move w-auto max-w-xs rounded px-5 py-2 border-2 absolute bg-blue-600 text-white';
-
-const circleSelected='cursor-move w-24 rounded-full px-5 py-2  border-4 absolute border-red-500 bg-blue-600 text-white';
-const circle='cursor-move w-24 rounded-full px-5 py-2  border-2 absolute bg-blue-600 text-white';
 
 function Box(props) {
+    const location = useLocation();
+
         const updateXarrow = useXarrow();
-        const [state,setState]=useState({
-            activeDrags: 0,
-            controlledPosition: {
+        const [controlledPosition,setControlledPosition]=useState({
                 x: props.posX, y: props.posY
-            }
         });
+
+        /*useEffect(() => {
+            console.log(location.state.boardId)
+            //DB.updateBox()
+        },[controlledPosition]);*/
 
         const onControlledDrag = (e, position) => {
             let {x, y} = position;
-            setState({controlledPosition: {x, y}});
+            setControlledPosition({x, y});
         };
         const onStart = () => {
-            // setState({activeDrags: ++state.activeDrags});
+            /*const box={id:props.id,x:controlledPosition.x,y:controlledPosition.y,
+                boxType:props.boxType,title:props.title,content:props.content,type:'box'};
+            console.log(box)*/
         };
 
         const onStop = () => {
-            setState({
-                activeDrags: --state.activeDrags,
-                controlledPosition:state.controlledPosition
-            });
-
+            const box={id:props.id,x:controlledPosition.x,y:controlledPosition.y,
+                boxType:props.boxType,title:props.title,content:props.content,type:'box',docId:props.docId};
+            DB.updateBox(location.state.boardId,box)
+            //update firebase
         };
 
-        const dragHandlers = {onStart: onStart, onStop: onStop};
-        const {controlledPosition} = state;
+        const dragHandlers = {onStart: onStart, onStop: onStop, onDrag:onControlledDrag};
 
     function createBox() {
+        if(props.boxType==='person'){
+            return(
+                <div className={'rounded text-white flex flex-col justify-center items-center'}
+                     onDragStart={(e) => e.dataTransfer.setData('shape', 'person')}
+                     draggable={'true'}>
+                    <div className={'rounded-full w-10 h-10 bg-blue-700'}></div>
+                    <div className={'rounded w-full bg-blue-700 p-5 -mt-2 text-center'}>Persona</div>
+                </div>
+            )
+        }
 
         if(props.boxType==='system'){
                return(
-                   <div className={props.action.name==='addArrow'?props.selected.id!==props.id?boxSelected:'system':'systemSelected'}  id={props.id}>
+                   <div className={props.action.name==='addArrow'?props.selected.id!==props.id?'systemSelected':'system':'system'}  id={props.id}>
                        <p className={'title'}>{props.title}</p>
                        <p >{props.content}</p>
                    </div>
                )
         }
-        if(props.boxType==='circle'){
+        if(props.boxType==='container'){
             return(
-                <div  className={props.action.name==='addArrow'?props.selected.id!==props.id?circleSelected:circle:circle} id={props.id}>
-                    <p className={'text-center border-b font-medium capitalize'}>{props.title}</p>
-                    <p className={'text-center'}>{props.content}</p>
+                <div className={props.action.name==='addArrow'?props.selected.id!==props.id?'containerSelected':'container':'container'}  id={props.id}>
+                    <p className={'title'}>{props.title}</p>
+                    <p >{props.content}</p>
+                </div>
+            )
+        }
+
+        if(props.boxType==='database'){
+            return(
+                <div className={props.action.name==='addArrow'?props.selected.id!==props.id?'databaseSelected':'database':'database'}  id={props.id}>
+                    <p className={'title'}>{props.title}</p>
+                    <p >{props.content}</p>
+                </div>
+            )
+        }
+        if(props.boxType==='component'){
+            return(
+                <div className={props.action.name==='addArrow'?props.selected.id!==props.id?'componentSelected':'component':'component'}  id={props.id}>
+                    <p className={'title'}>{props.title}</p>
+                    <p >{props.content}</p>
                 </div>
             )
         }
@@ -73,15 +101,21 @@ function Box(props) {
                 props.setShowOptions({box:!props.showOptions.box,arrow:false});
                 props.setAction('');
             }else{
-                props.setSelected({id:props.id,boxType:props.boxType,title:props.title,content:props.content,type:'box'});
+                props.setSelected({id:props.id,x:controlledPosition.x,y:controlledPosition.y,
+                    boxType:props.boxType,title:props.title,content:props.content,type:'box',docId:props.docId});
+
                 props.setShowOptions({box:true,arrow:false});
             }
         }
         if(e.button===0){
             switch (props.action.name) {
                 case 'addArrow':
-                    props.setArrows([...props.arrows,{id:nexArrowId(),start:props.selected.id, end:props.id,
-                        dotted:props.action.options.dotted, label:'label'}]);
+                    const newArrow={id:nexArrowId(),start:props.selected.id, end:props.id,
+                        dotted:props.action.options.dotted, label:'label',docId:0}
+
+                    DB.createArrow(location.state.boardId,newArrow);
+
+                    props.setArrows([...props.arrows,newArrow]);
                     break;
                 default :
                     props.setAction('');
@@ -92,8 +126,8 @@ function Box(props) {
     }
 
     return (
-            <Draggable position={controlledPosition} {...dragHandlers} onDrag={onControlledDrag}
-                       onStop={updateXarrow}   bounds={{top: 0, left: 0}}
+            <Draggable position={controlledPosition} {...dragHandlers}
+                         bounds={{top: 0, left: 0}}
                         onMouseDown={(e)=>handleCLick(e)}>
                 {createBox()}
             </Draggable>

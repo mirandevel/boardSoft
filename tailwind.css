@@ -15,7 +15,7 @@
         @apply border-b font-medium capitalize;
     }
     .box{
-        @apply cursor-move w-auto max-w-xs rounded px-5 py-2 border-2 border-gray-300 absolute text-white text-center;
+        @apply cursor-move w-auto max-w-xs rounded px-5 py-2 border-2 absolute text-white text-center;
     }
     .boxSelected{
         @apply border-red-500
@@ -25,21 +25,21 @@
         @apply box bg-blue-700
     }
     .systemSelected{
-        @apply box bg-blue-700 border-red-500
+        @apply system border-red-500
     }
 
     .container{
         @apply box bg-blue-500
     }
     .containerSelected{
-        @apply box bg-blue-500 boxSelected
+        @apply container boxSelected
     }
 
     .database{
         @apply box db
     }
     .databaseSelected{
-        @apply box db bg-blue-500 boxSelected
+        @apply database boxSelected
     }
 
     .component{

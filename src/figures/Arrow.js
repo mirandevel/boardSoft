@@ -7,7 +7,8 @@ function Arrow(props) {
     function handleCLick() {
         props.setAction('');
         props.setShowOptions({box:false,arrow:!props.showOptions.arrow});
-        props.setSelected({id:props.id, start:props.start, end:props.end, dotted:props.dotted, label: props.label,type:'arrow'});
+        props.setSelected({id:props.id, start:props.start, end:props.end,
+            dotted:props.dotted, label: props.label,type:'arrow',docId:props.docId});
     }
 
     const passProps={
@@ -15,9 +16,11 @@ function Arrow(props) {
         cursor: 'pointer'
     }
 
+
     return (
         <Xarrow dashness={props.dotted} path={'straight'} strokeWidth={2} labels={{ middle: props.label }}
-                start={props.start} end={props.end} passProps={passProps}/>
+                start={props.start} end={props.end} passProps={passProps} color={'gray'}/>
+
     );
 }
 
