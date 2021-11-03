@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {useXarrow} from "react-xarrows";
 import Draggable from "react-draggable";
 
-const boxSelected='cursor-move w-24 rounded p-1 border-4 absolute border-red-500';
-const box='cursor-move w-auto max-w-xs rounded p-1 border-2 absolute';
+const boxSelected='cursor-move w-24 rounded px-5 py-2 border-4 absolute border-red-500 bg-blue-600 text-white';
+const box='cursor-move w-auto max-w-xs rounded px-5 py-2 border-2 absolute bg-blue-600 text-white';
 
-const circleSelected='cursor-move w-24 rounded-full p-1 border-4 absolute border-red-500';
-const circle='cursor-move w-24 rounded-full p-1 border-2 absolute';
+const circleSelected='cursor-move w-24 rounded-full px-5 py-2  border-4 absolute border-red-500 bg-blue-600 text-white';
+const circle='cursor-move w-24 rounded-full px-5 py-2  border-2 absolute bg-blue-600 text-white';
 
 function Box(props) {
         const updateXarrow = useXarrow();
@@ -38,18 +38,18 @@ function Box(props) {
 
     function createBox() {
 
-        if(props.boxType==='box'){
+        if(props.boxType==='system'){
                return(
-                   <div className={props.action.name==='addArrow'?props.selected.id!==props.id?boxSelected:box:box}  id={props.id}>
-                       <p className={'text-center border-b'}>{props.title}</p>
-                       <p className={'text-center'}>{props.content}</p>
+                   <div className={props.action.name==='addArrow'?props.selected.id!==props.id?boxSelected:'system':'systemSelected'}  id={props.id}>
+                       <p className={'title'}>{props.title}</p>
+                       <p >{props.content}</p>
                    </div>
                )
         }
         if(props.boxType==='circle'){
             return(
                 <div  className={props.action.name==='addArrow'?props.selected.id!==props.id?circleSelected:circle:circle} id={props.id}>
-                    <p className={'text-center border-b'}>{props.title}</p>
+                    <p className={'text-center border-b font-medium capitalize'}>{props.title}</p>
                     <p className={'text-center'}>{props.content}</p>
                 </div>
             )

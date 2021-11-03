@@ -6,6 +6,7 @@ import {useLocation, useHistory} from "react-router-dom";
 import DB from "../firebase/FirestoreProvider";
 import Modal from "./Modal";
 
+import db from '../assets/db.png';
 
 function BoardPage(props) {
     const location = useLocation();
@@ -66,15 +67,40 @@ function BoardPage(props) {
         <div className={'flex min-h-screen'}>
             <div className={'w-48 border border-4 shadow-xl p-5 flex flex-col justify-between'}>
                 <div className={'space-y-5 flex flex-col justify-center items-center'}>
-                    <div className={'rounded w-24 p-5 border-2'}
-                         onDragStart={(e) => e.dataTransfer.setData('shape', 'box')}
-                         draggable={'true'}>hola
+                    <div className={'rounded text-white flex flex-col justify-center items-center'}
+                         onDragStart={(e) => e.dataTransfer.setData('shape', 'person')}
+                         draggable={'true'}>
+                        <div className={'rounded-full w-10 h-10 bg-blue-700'}></div>
+                        <div className={'rounded w-full bg-blue-700 p-5 -mt-2 text-center'}>Person</div>
                     </div>
+
+                    <div className={'rounded w-24 p-5 border-2 bg-blue-700 text-white'}
+                         onDragStart={(e) => e.dataTransfer.setData('shape', 'system')}
+                         draggable={'true'}>Sistema
+                    </div>
+
+                    <div className={'rounded p-5 border-2 bg-blue-500 text-white'}
+                         onDragStart={(e) => e.dataTransfer.setData('shape', 'container')}
+                         draggable={'true'}>Contenedor
+                    </div>
+                    <div className={'db text-center p-5'}
+                         onDragStart={(e) => e.dataTransfer.setData('shape', 'database')}
+                         draggable={'true'}>
+                        <p className={'tex-center text-white'}>Base de datos</p>
+                    </div>
+
+                    <div className={'rounded p-5 border-2 bg-blue-400 text-white'}
+                         onDragStart={(e) => e.dataTransfer.setData('shape', 'component')}
+                         draggable={'true'}>Componente
+                    </div>
+
+
                     <div className={'rounded-full w-24 p-5 border-2'}
                          onDragStart={(e) => e.dataTransfer.setData('shape', 'circle')}
                          draggable={'true'}>hola
                     </div>
                 </div>
+
                 <div className={'space-y-2 flex flex-col'}>
                     <button className={'w-full rounded p-1 hover:shadow-lg bg-blue-500 text-white font-medium'}
                             onClick={e => setModalActions({participants: true, delete: false})}>{'Participantes'}</button>

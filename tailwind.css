@@ -10,3 +10,52 @@
         @apply font-medium text-sm text-gray-500
     }
 }
+@layer components{
+    .title{
+        @apply border-b font-medium capitalize;
+    }
+    .box{
+        @apply cursor-move w-auto max-w-xs rounded px-5 py-2 border-2 border-gray-300 absolute text-white text-center;
+    }
+    .boxSelected{
+        @apply border-red-500
+    }
+
+    .system{
+        @apply box bg-blue-700
+    }
+    .systemSelected{
+        @apply box bg-blue-700 border-red-500
+    }
+
+    .container{
+        @apply box bg-blue-500
+    }
+    .containerSelected{
+        @apply box bg-blue-500 boxSelected
+    }
+
+    .database{
+        @apply box db
+    }
+    .databaseSelected{
+        @apply box db bg-blue-500 boxSelected
+    }
+
+    .component{
+        @apply box bg-blue-300
+    }
+    .componentSelected{
+        @apply box bg-blue-300 boxSelected
+    }
+
+
+}
+@layer utilities{
+    .db{
+        background-image: url("./assets/db.png");
+        background-size:  100%;
+        background-repeat:   no-repeat;
+        background-position: center top;
+    }
+}

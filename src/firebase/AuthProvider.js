@@ -1,8 +1,7 @@
 import {Auth} from "../firebase/firebaseConfig";
-import {onAuthStateChanged,signOut} from "firebase/auth";
+import {onAuthStateChanged,signOut,GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 
-const login=(setUser,setLogged)=>{
-    console.log('holaa');
+const authState=(setUser,setLogged)=>{
     onAuthStateChanged(Auth, (user) => {
         if (user) {
             setUser(user);
@@ -20,8 +19,20 @@ const logout =(setUser)=>{
     });
 }
 
+const login=()=> {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(Auth, provider)
+        .then((result) => {
+            console.log(result)
+        }).catch((error) => {
+        console.log(error.message);
+    });
+
+}
+
 const authProvider={
     login,
+    authState,
     logout
 }
 export default authProvider;

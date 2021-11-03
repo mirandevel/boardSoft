@@ -9,7 +9,7 @@ const AuthProvider = ({children}) => {
     const [user,setUser]=useState(null);
 
     useEffect(() => {
-        authProvider.login(setUser,setLogged)
+        authProvider.authState(setUser,setLogged)
     },[]);
 
     const contextValue = {
