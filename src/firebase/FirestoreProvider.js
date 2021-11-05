@@ -67,10 +67,29 @@ const createBox=(boardId,box)=>{
 };
 const updateBox=(boardId,box)=>{
     updateDoc(doc(db, "boards",boardId,"boxes",box.docId),box);
+
     //eliminar flechas tambien
 }
-const deleteBox=(boardId,boxId)=>{
-    deleteDoc(doc(db, "boards",boardId,"boxes",boxId));
+const deleteBox=(boardId,docId,boxId)=>{
+    console.log(boxId);
+    const qStart = query(collection(db, "boards",boardId,"arrows"), where('start', '==', boxId));
+    const qEnd = query(collection(db, "boards",boardId,"arrows"), where('end', '==', boxId));
+    let finished=false;
+    getDocs(qStart).then((snapshots)=>{
+        snapshots.forEach((doc)=>{
+            deleteDoc(doc.ref);
+        });
+        if (finished)deleteDoc(doc(db, "boards",boardId,"boxes",docId));
+        else finished=!finished;
+    });
+    getDocs(qEnd).then((snapshots)=>{
+        console.log(snapshots.docs.length);
+        snapshots.forEach(doc=>{
+            deleteDoc(doc.ref);
+        });
+        if (finished)deleteDoc(doc(db, "boards",boardId,"boxes",docId));
+        else finished=!finished;
+    });
 }
 
 

@@ -10,29 +10,14 @@ import UseAuth from "../middlewares/UseAuth";
 function BoardPage(props) {
     const location = useLocation();
     const history = useHistory();
-    const auth=UseAuth();
+    const auth = UseAuth();
 
-    if(location.state===undefined){
+    if (location.state === undefined) {
         history.replace('/')
     }
 
-    const [board,setBoard]=useState({});
-    const [isOwner,setIsOwner]=useState(false);
-
-    useEffect(() => {
-      DB.getBoard(setBoard,location.state.boardId);
-      DB.initBoxes(setBoxes,location.state.boardId)
-      DB.initArrows(setArrows,location.state.boardId)
-    },[]);
-
-    useEffect(() => {
-        if(Object.entries(board).length !== 0)
-            if(!board.participantsEmail.includes(auth.user.email)) history.replace('/');
-            else setIsOwner(board.ownerId===auth.user.uid);
-    },[board]);
-
-
-
+    const [board, setBoard] = useState({});
+    const [isOwner, setIsOwner] = useState(false);
 
     const [boxes, setBoxes] = useState([]);
     const [arrows, setArrows] = useState([]);
@@ -41,6 +26,26 @@ function BoardPage(props) {
     const [selected, setSelected] = useState({});
     const [showOptions, setShowOptions] = useState({box: false, arrow: false});
     const [modalActions, setModalActions] = useState({participants: false, delete: false});
+
+    useEffect(() => {
+        if(board===undefined) history.replace('/');
+        else if (Object.entries(board).length !== 0)
+            if (!board.participantsEmail.includes(auth.user.email)) history.replace('/');
+            else setIsOwner(board.ownerId === auth.user.uid);
+    }, [board]);
+
+
+    useEffect(() => {
+        if (board!==undefined && Object.entries(board).length === 0) {
+            DB.getBoard(setBoard, location.state.boardId);
+            DB.initBoxes(setBoxes, location.state.boardId)
+            DB.initArrows(setArrows, location.state.boardId)
+        }
+    }, [board]);
+
+
+
+
 
 
 
@@ -77,9 +82,9 @@ function BoardPage(props) {
         let {x, y} = e.target.getBoundingClientRect();
         let newBox = {
             id: nexBoxId(), x: e.clientX - x, y: e.clientY - y, boxType: boxType,
-            title: 'title', content: 'descripción',docId:0,
+            title: 'title', content: 'descripción', docId: 0,
         };
-        DB.createBox(location.state.boardId,newBox);
+        DB.createBox(location.state.boardId, newBox);
         setBoxes([...boxes, newBox]);
     };
 
@@ -118,20 +123,21 @@ function BoardPage(props) {
 
                 <div className={'space-y-2 flex flex-col'}>
                     <button className={'w-full rounded p-1 hover:shadow-lg bg-blue-500 text-white font-medium'}
-                             onClick={e => setModalActions({
-                                 participants: true,
-                                 delete: false
-                             })}>{'Participantes'}</button>
+                            onClick={e => setModalActions({
+                                participants: true,
+                                delete: false
+                            })}>{'Participantes'}</button>
 
                     <button className={'w-full rounded p-1 hover:shadow-lg bg-blue-500 text-white font-medium'}
                             onClick={e => {
                                 history.push('/')
                             }}>{'Salir'}</button>
-                    {isOwner && <button className={'w-full rounded p-1 hover:shadow-lg bg-red-500 text-white font-medium'}
-                                onClick={e => setModalActions({
-                                    participants: false,
-                                    delete: true
-                                })}>{'Eliminar'}</button>
+                    {isOwner &&
+                    <button className={'w-full rounded p-1 hover:shadow-lg bg-red-500 text-white font-medium'}
+                            onClick={e => setModalActions({
+                                participants: false,
+                                delete: true
+                            })}>{'Eliminar'}</button>
                     }
                 </div>
             </div>
@@ -185,7 +191,8 @@ function BoardPage(props) {
                 }}>---->
                 </button>
 
-                <button className={'border-2 w-full mt-8'} onClick={e => DB.deleteBox(location.state.boardId,selected.docId)}>{'Eliminar'}</button>
+                <button className={'border-2 w-full mt-8'}
+                        onClick={e => DB.deleteBox(location.state.boardId, selected.docId,selected.id)}>{'Eliminar'}</button>
                 <button className={'border-2 w-full mt-8'} onClick={e => setShowOptions({})}>{'Cerrar'}</button>
 
             </div>)}
@@ -207,14 +214,16 @@ function BoardPage(props) {
                     </select>
                 </div>
 
-                <button className={'border-2 w-full mt-8'} onClick={e => DB.deleteArrow(location.state.boardId,selected.docId)}>{'Eliminar'}</button>
+                <button className={'border-2 w-full mt-8'}
+                        onClick={e => DB.deleteArrow(location.state.boardId, selected.docId)}>{'Eliminar'}</button>
 
                 <button className={'border-2 w-full mt-8'}
                         onClick={e => setShowOptions({box: false, arrow: false})}>{'Cerrar'}</button>
 
             </div>)}
 
-            {modalActions.delete && <Modal title={'Crear Tablero'} setModal={setModalActions} value={{participants: false, delete: false}}>
+            {modalActions.delete &&
+            <Modal title={'Crear Tablero'} setModal={setModalActions} value={{participants: false, delete: false}}>
                 <div className={'p-5 space-y-10'}>
                     <p>{'¿Estas seguro de eliminar este tablero?'}</p>
                     <div className={'flex justify-end space-x-2'}>
@@ -236,21 +245,27 @@ function BoardPage(props) {
                 </div>
             </Modal>}
 
-            {modalActions.participants && <Modal title={'Participantes'} setModal={setModalActions} value={{participants: false, delete: false}}>
+            {modalActions.participants &&
+            <Modal title={'Participantes'} setModal={setModalActions} value={{participants: false, delete: false}}>
                 <div className={'p-5 space-y-10'}>
-                    {isOwner &&<form className={'flex space-x-2'}
-                        onSubmit={e => {e.preventDefault();DB.addParticipant(e.target.email.value, location.state.boardId)}}>
+                    {isOwner && <form className={'flex space-x-2'}
+                                      onSubmit={e => {
+                                          e.preventDefault();
+                                          DB.addParticipant(e.target.email.value, location.state.boardId)
+                                      }}>
                         <input className={'w-full'} type="text" name={'email'} placeholder={'Correo del participante'}/>
-                        <button className={'rounded p-2 hover:shadow-lg bg-blue-500 text-white font-medium'}>{'Añadir'}</button>
+                        <button
+                            className={'rounded p-2 hover:shadow-lg bg-blue-500 text-white font-medium'}>{'Añadir'}</button>
                     </form>}
                     <div className={'space-y-2'}>
-                    {board.participantsEmail.map((email,index) => {
-                        return <div key={index} className={'flex space-x-2 items-center justify-center'}>
-                            <p className={'w-full block border-2 p-1.5 rounded text-gray-600 font-medium'}>{email}</p>
-                            {isOwner && <button className={'rounded p-2 hover:shadow-lg bg-red-500 text-white font-medium'}
-                            onClick={e=>DB.removeParticipant(email,location.state.boardId)}>{'Remover'}</button>}
-                        </div>
-                    })}
+                        {board.participantsEmail.map((email, index) => {
+                            return <div key={index} className={'flex space-x-2 items-center justify-center'}>
+                                <p className={'w-full block border-2 p-1.5 rounded text-gray-600 font-medium'}>{email}</p>
+                                {isOwner &&
+                                <button className={'rounded p-2 hover:shadow-lg bg-red-500 text-white font-medium'}
+                                        onClick={e => DB.removeParticipant(email, location.state.boardId)}>{'Remover'}</button>}
+                            </div>
+                        })}
                     </div>
 
 
@@ -268,7 +283,8 @@ function BoardPage(props) {
             const value = toUpdate === 'title' ? {title: e.target.value} : {content: e.target.value};
             updated.splice(position, 1, {...updated[position], ...value});
             setSelected({...selected, ...value});
-            DB.updateBox(location.state.boardId,selected)
+            //DB.updateBox(location.state.boardId, selected)
+            DB.updateBox(location.state.boardId, updated[position])
             setBoxes(updated);
 
         } else {
@@ -292,7 +308,7 @@ function BoardPage(props) {
             }
             updated.splice(position, 1, {...updated[position], ...value});
             setSelected({...selected, ...value});
-            DB.updateArrow(location.state.boardId,updated[position])
+            DB.updateArrow(location.state.boardId, updated[position])
             setArrows(updated);
         }
     }
