@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/board/static/css/main.b76994d2.chunk.css",
-    "main.js": "/board/static/js/main.6a34dfc8.chunk.js",
-    "main.js.map": "/board/static/js/main.6a34dfc8.chunk.js.map",
-    "runtime-main.js": "/board/static/js/runtime-main.bc079b2c.js",
-    "runtime-main.js.map": "/board/static/js/runtime-main.bc079b2c.js.map",
-    "static/js/2.457442a5.chunk.js": "/board/static/js/2.457442a5.chunk.js",
-    "static/js/2.457442a5.chunk.js.map": "/board/static/js/2.457442a5.chunk.js.map",
-    "index.html": "/board/index.html",
-    "static/css/main.b76994d2.chunk.css.map": "/board/static/css/main.b76994d2.chunk.css.map",
-    "static/js/2.457442a5.chunk.js.LICENSE.txt": "/board/static/js/2.457442a5.chunk.js.LICENSE.txt"
+    "main.css": "/boardSoft/static/css/main.b76994d2.chunk.css",
+    "main.js": "/boardSoft/static/js/main.6a34dfc8.chunk.js",
+    "main.js.map": "/boardSoft/static/js/main.6a34dfc8.chunk.js.map",
+    "runtime-main.js": "/boardSoft/static/js/runtime-main.e49f47c3.js",
+    "runtime-main.js.map": "/boardSoft/static/js/runtime-main.e49f47c3.js.map",
+    "static/js/2.ae564ecf.chunk.js": "/boardSoft/static/js/2.ae564ecf.chunk.js",
+    "static/js/2.ae564ecf.chunk.js.map": "/boardSoft/static/js/2.ae564ecf.chunk.js.map",
+    "index.html": "/boardSoft/index.html",
+    "static/css/main.b76994d2.chunk.css.map": "/boardSoft/static/css/main.b76994d2.chunk.css.map",
+    "static/js/2.ae564ecf.chunk.js.LICENSE.txt": "/boardSoft/static/js/2.ae564ecf.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.bc079b2c.js",
-    "static/js/2.457442a5.chunk.js",
+    "static/js/runtime-main.e49f47c3.js",
+    "static/js/2.ae564ecf.chunk.js",
     "static/css/main.b76994d2.chunk.css",
     "static/js/main.6a34dfc8.chunk.js"
   ]
