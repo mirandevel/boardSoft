@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/boardSoft/static/css/main.b76994d2.chunk.css",
-    "main.js": "/boardSoft/static/js/main.039399ea.chunk.js",
-    "main.js.map": "/boardSoft/static/js/main.039399ea.chunk.js.map",
+    "main.js": "/boardSoft/static/js/main.3bbbba80.chunk.js",
+    "main.js.map": "/boardSoft/static/js/main.3bbbba80.chunk.js.map",
     "runtime-main.js": "/boardSoft/static/js/runtime-main.e49f47c3.js",
     "runtime-main.js.map": "/boardSoft/static/js/runtime-main.e49f47c3.js.map",
     "static/js/2.ae564ecf.chunk.js": "/boardSoft/static/js/2.ae564ecf.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.e49f47c3.js",
     "static/js/2.ae564ecf.chunk.js",
     "static/css/main.b76994d2.chunk.css",
-    "static/js/main.039399ea.chunk.js"
+    "static/js/main.3bbbba80.chunk.js"
   ]
 }
