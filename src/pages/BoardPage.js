@@ -11,7 +11,7 @@ function BoardPage(props) {
     const location = useLocation();
     const history = useHistory();
     const auth = UseAuth();
-
+    console.log(location)
     if (location.state === undefined) {
         history.replace('/')
     }
@@ -82,7 +82,7 @@ function BoardPage(props) {
         let {x, y} = e.target.getBoundingClientRect();
         let newBox = {
             id: nexBoxId(), x: e.clientX - x, y: e.clientY - y, boxType: boxType,
-            title: 'title', content: 'descripción', docId: 0,
+            title: 'título', content: 'descripción', docId: 0,
         };
         DB.createBox(location.state.boardId, newBox);
         setBoxes([...boxes, newBox]);
@@ -233,7 +233,7 @@ function BoardPage(props) {
                         <button className={'rounded p-2 hover:shadow-lg bg-red-500 text-white font-medium'}
                                 onClick={e => {
                                     DB.deleteBoard(location.state.boardId).then(() => {
-                                        history.replace('/')
+                                        history.push('/boardSoft')
                                     })
                                 }}>{'Eliminar'}</button>
 

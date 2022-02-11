@@ -667,14 +667,16 @@ label{
 
 .title{
   border-bottom-width: 1px;
+  text-align: center;
   font-weight: 500;
   text-transform: capitalize;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 
 .box{
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -685,6 +687,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
 }
 
 .boxSelected{
@@ -692,10 +695,43 @@ label{
   border-color: rgba(239, 68, 68, var(--tw-border-opacity))
 }
 
+.person{
+  position: absolute;
+  display: flex;
+  width: auto;
+  cursor: move;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  border-width: 2px;
+  text-align: center;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
+}
+
+.personSelected{
+  position: absolute;
+  display: flex;
+  width: auto;
+  cursor: move;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  border-width: 2px;
+  text-align: center;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
+  --tw-border-opacity: 1;
+  border-color: rgba(239, 68, 68, var(--tw-border-opacity));
+}
+
 .system{
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -706,6 +742,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   --tw-bg-opacity: 1;
   background-color: rgba(29, 78, 216, var(--tw-bg-opacity))
 }
@@ -713,7 +750,6 @@ label{
 .systemSelected{
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -724,6 +760,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   --tw-bg-opacity: 1;
   background-color: rgba(29, 78, 216, var(--tw-bg-opacity));
   --tw-border-opacity: 1;
@@ -733,7 +770,6 @@ label{
 .container{
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -744,6 +780,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   --tw-bg-opacity: 1;
   background-color: rgba(59, 130, 246, var(--tw-bg-opacity))
 }
@@ -787,7 +824,6 @@ label{
   border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -798,6 +834,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   --tw-bg-opacity: 1;
   background-color: rgba(59, 130, 246, var(--tw-bg-opacity))
 }
@@ -805,7 +842,6 @@ label{
 .database{
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -816,6 +852,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   background-image: url("./assets/db.png");
   background-size:  100%;
   background-repeat:   no-repeat;
@@ -827,7 +864,6 @@ label{
   border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -838,6 +874,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   background-image: url("./assets/db.png");
   background-size:  100%;
   background-repeat:   no-repeat;
@@ -847,7 +884,6 @@ label{
 .component{
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -858,6 +894,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   --tw-bg-opacity: 1;
   background-color: rgba(147, 197, 253, var(--tw-bg-opacity))
 }
@@ -865,7 +902,6 @@ label{
 .componentSelected{
   position: absolute;
   width: auto;
-  max-width: 20rem;
   cursor: move;
   border-radius: 0.25rem;
   border-width: 2px;
@@ -876,6 +912,7 @@ label{
   text-align: center;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  max-width: 13rem;
   --tw-border-opacity: 1;
   border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   --tw-bg-opacity: 1;
@@ -32492,12 +32529,136 @@ label{
   content: none;
 }
 
+.ancho{
+  max-width: 13rem;
+}
+
 .db{
   background-image: url("./assets/db.png");
   background-size:  100%;
   background-repeat:   no-repeat;
   background-position: center top;
 }
+
+.cylinder {
+  position: absolute;
+  overflow: hidden;
+  margin: 0 auto;
+  width: auto;
+  height: auto;
+  max-width: 13rem;
+  border-radius: 50px/25px;
+  background-color: #3B82F6;
+  padding: 1.25rem;
+  cursor: move;
+  border-width: 2px;
+  border-color:#D1D5DB;
+}
+
+.cylinder:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: 50px;
+  max-width: 13rem;
+  border-radius: 50px/25px;
+  background-color: #030303;
+  border-color:#D1D5DB;
+  content: '';
+}
+
+.cylinder:after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: auto;
+  height: 50px;
+  max-width: 13rem;
+  border-radius: 50px/25px;
+  background-color: #4682e2;
+  border-color:#D1D5DB;
+  content: '';
+}
+
+.cylinderSelected {
+  position: absolute;
+  overflow: hidden;
+  margin: 0 auto;
+  width: auto;
+  height: auto;
+  max-width: 20rem;
+  border-radius: 50px/25px;
+  background-color: #3B82F6;
+  padding: 1.25rem;
+  cursor: move;
+  border-width: 2px;
+  border-color:#EF4444;
+}
+
+.cylinderSelected:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: 50px;
+  max-width: 20rem;
+  border-radius: 50px/25px;
+  background-color: #4682e2;
+  border-color:#D1D5DB;
+  content: '';
+}
+
+.cylinderSelected:after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: auto;
+  height: 50px;
+  max-width: 20rem;
+  border-radius: 50px/25px;
+  background-color: #4682e2;
+  border-color:#D1D5DB;
+  content: '';
+}
+
+/*    .cylinder {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            width: auto;
+            height: auto;
+            max-width: 10rem;
+            border-radius: 50px/25px;
+
+            background-color: #3B82F6;
+            padding: 1.25rem;
+            cursor: move;
+        }
+
+        .cylinder:before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: auto;
+            height: 0.25rem;
+            max-width: 10rem;
+            border-radius: 50px/25px;
+            background-color: rgba(160, 160, 160, 0.2);
+            content: '';
+        }
+
+        .cylinder:after {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: auto;
+            height: 0.25rem;
+            max-width: 10rem;
+            border-radius: 50px/25px;
+            background-color: rgba(160, 160, 160, 0.4);
+            content: '';
+        }*/
 
 @media (min-width: 640px) {
   .sm\:container {

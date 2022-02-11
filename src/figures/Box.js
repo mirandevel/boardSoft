@@ -37,12 +37,21 @@ function Box(props) {
     function createBox() {
         if(props.boxType==='person'){
             return(
-                <div className={'rounded text-white flex flex-col justify-center items-center'}
-                     onDragStart={(e) => e.dataTransfer.setData('shape', 'person')}
-                     draggable={'true'}>
+                <div className={props.action.name==='addArrow'?props.selected.id!==props.id?'personSelected':'person':'person'}  id={props.id}>
                     <div className={'rounded-full w-10 h-10 bg-blue-700'}></div>
-                    <div className={'rounded w-full bg-blue-700 p-5 -mt-2 text-center'}>Persona</div>
+                    <div className={'rounded w-full bg-blue-700 p-5 -mt-2 text-center'}>
+
+                    <p className={'title'}>{props.title}</p>
+                    <p >{props.content}</p>
+                    </div>
+
                 </div>
+             /*   <div className={'rounded text-white flex flex-col justify-center items-center w-auto max-w-xs'} id={props.id}>
+                    <p className={'rounded bg-blue-700 p-5 -mt-2 text-center'}>
+                        <p className={'title'}>{props.title}</p>
+                        <p >{props.content}</p>
+                    </p>
+                </div>*/
             )
         }
 
@@ -65,9 +74,9 @@ function Box(props) {
 
         if(props.boxType==='database'){
             return(
-                <div className={props.action.name==='addArrow'?props.selected.id!==props.id?'databaseSelected':'database':'database'}  id={props.id}>
+                <div className={props.action.name==='addArrow'?props.selected.id!==props.id?'cylinderSelected':'cylinder':'cylinder'}  id={props.id}>
                     <p className={'title'}>{props.title}</p>
-                    <p >{props.content}</p>
+                    <p className={'text-center text-white'}>{props.content}</p>
                 </div>
             )
         }
@@ -93,7 +102,7 @@ function Box(props) {
     }
 
     function handleCLick(e) {
-        if(e.button===1) {
+        if(e.button===2) {
             if(props.selected.id===props.id) {
                 props.setShowOptions({box:!props.showOptions.box,arrow:false});
                 props.setAction('');

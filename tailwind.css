@@ -12,15 +12,23 @@
 }
 @layer components{
     .title{
-        @apply border-b font-medium capitalize;
+        @apply border-b font-medium capitalize text-center text-white;
     }
     .box{
-        @apply cursor-move w-auto max-w-xs rounded px-5 py-2 border-2 absolute text-white text-center;
+        @apply cursor-move w-auto ancho rounded px-5 py-2 border-2 absolute text-white text-center;
     }
+
     .boxSelected{
         @apply border-red-500
     }
 
+    .person{
+        @apply cursor-move w-auto ancho rounded border-2 absolute text-white text-center flex flex-col justify-center items-center;
+    }
+
+    .personSelected{
+        @apply person border-red-500;
+    }
     .system{
         @apply box bg-blue-700
     }
@@ -52,10 +60,138 @@
 
 }
 @layer utilities{
+    .ancho{
+        max-width: 13rem;
+    }
     .db{
         background-image: url("./assets/db.png");
         background-size:  100%;
         background-repeat:   no-repeat;
         background-position: center top;
     }
+
+
+    .cylinder {
+        position: absolute;
+        overflow: hidden;
+        margin: 0 auto;
+        width: auto;
+        height: auto;
+        max-width: 13rem;
+        border-radius: 50px/25px;
+        background-color: #3B82F6;
+        padding: 1.25rem;
+        cursor: move;
+        border-width: 2px;
+        border-color:#D1D5DB;
+
+    }
+
+    .cylinder:before {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: auto;
+        height: 50px;
+        max-width: 13rem;
+        border-radius: 50px/25px;
+        background-color: #030303;
+        border-color:#D1D5DB;
+        content: '';
+    }
+
+    .cylinder:after {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: auto;
+        height: 50px;
+        max-width: 13rem;
+        border-radius: 50px/25px;
+        background-color: #4682e2;
+        border-color:#D1D5DB;
+        content: '';
+    }
+
+
+    .cylinderSelected {
+        position: absolute;
+        overflow: hidden;
+        margin: 0 auto;
+        width: auto;
+        height: auto;
+        max-width: 20rem;
+        border-radius: 50px/25px;
+        background-color: #3B82F6;
+        padding: 1.25rem;
+        cursor: move;
+        border-width: 2px;
+        border-color:#EF4444;
+
+    }
+
+    .cylinderSelected:before {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: auto;
+        height: 50px;
+        max-width: 20rem;
+        border-radius: 50px/25px;
+        background-color: #4682e2;
+        border-color:#D1D5DB;
+        content: '';
+    }
+
+    .cylinderSelected:after {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: auto;
+        height: 50px;
+        max-width: 20rem;
+        border-radius: 50px/25px;
+        background-color: #4682e2;
+        border-color:#D1D5DB;
+        content: '';
+    }
+
+
+    /*    .cylinder {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            width: auto;
+            height: auto;
+            max-width: 10rem;
+            border-radius: 50px/25px;
+
+            background-color: #3B82F6;
+            padding: 1.25rem;
+            cursor: move;
+        }
+
+        .cylinder:before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: auto;
+            height: 0.25rem;
+            max-width: 10rem;
+            border-radius: 50px/25px;
+            background-color: rgba(160, 160, 160, 0.2);
+            content: '';
+        }
+
+        .cylinder:after {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: auto;
+            height: 0.25rem;
+            max-width: 10rem;
+            border-radius: 50px/25px;
+            background-color: rgba(160, 160, 160, 0.4);
+            content: '';
+        }*/
 }
